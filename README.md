@@ -26,6 +26,6 @@
  3. to run frontend `npm run build-dev`.
  4. Enter city name like "Roma Italy", "Paris France", "tokyo japan" and the date.
 
-* Note: 
+### Notes: 
  1. To run production build `npm run build-prod`.
  2. The project is limit to 16 day in the future due to `weatherbit` limitions.
