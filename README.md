@@ -12,8 +12,8 @@
 
 ### requirements:
  1. Node version 14.0
- 2. Register in http://www.geonames.org/ to get user name.
- 3. Create Travel-App\src\client\js\constansts.js file in the root of the project.
+ 2. Create Travel-App\src\client\js\constansts.js file (beside app.js) to save api keys.
+ 3. Register in http://www.geonames.org/ to get user name.
  4. set the key like `USER_NAME=**************`.
  5. Register in https://www.weatherbit.io/account/create to get API key.
  6. set the key in constansts.js like `WEATHERBIT_API_KEY =**************`.
