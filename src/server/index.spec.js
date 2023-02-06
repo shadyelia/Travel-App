@@ -1,7 +1,7 @@
-import { listening } from "./index";
+const listening = require('./index');
 
 describe("index tests", () => {
-  it("Testing the drawTrips() function", () => {
+  it("Testing the listening() function", () => {
     expect(listening).toBeDefined();
   });
 });

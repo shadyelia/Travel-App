@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.static("dist"));
 
 // Setup Server
-export function listening() {
+function listening() {
   console.log("server running");
   console.log(`running on localhost: ${port}`);
 }
@@ -45,3 +45,5 @@ function addData(req, res) {
   projectData.push(req.body.entry);
   res.send("POST received");
 }
+
+module.exports = listening;

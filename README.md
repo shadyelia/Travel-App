@@ -11,7 +11,7 @@
 5- Service Workers
 
 ### requirements:
- 1. Node js.
+ 1. Node version 14.0
  2. Register in http://www.geonames.org/ to get user name.
  3. Create Travel-App\src\client\js\constansts.js file in the root of the project.
  4. set the key like `USER_NAME=**************`.
