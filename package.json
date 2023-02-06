@@ -1,7 +1,7 @@
 {
   "name": "travel-app",
   "version": "1.0.0",
-  "description": "1- Run `npm install`<br />\r 2- Run `npm install -g nodemon`<br />\r 3- Run `nodemon ./server.js`<br />\r 4- Register in `https://openweathermap.org/` to get a API Key than add it in `Website/app.js` <br /> \r 5- Open `Website/index.html`<br />",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",

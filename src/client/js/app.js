@@ -1,9 +1,19 @@
 import * as constansts from "./constansts";
 
-var today = new Date().toISOString().split("T")[0];
-document.getElementById("travelDate").setAttribute("min", today);
+export const setDateLimitions = () => {
+  const currentDate = new Date();
+  const today = currentDate.toISOString().split("T")[0];
+  const numberOfDaysToAdd = 16; //weatherbit limitions
+  const maxDay = new Date(
+    currentDate.setDate(currentDate.getDate() + numberOfDaysToAdd)
+  )
+    .toISOString()
+    .split("T")[0];
+  document.getElementById("travelDate").setAttribute("min", today);
+  document.getElementById("travelDate").setAttribute("max", maxDay);
+};
 
-export const generateData = () => {
+export const addTrip = () => {
   const cityName = document.getElementById("city").value.trim();
   if (cityName !== "") {
     getCityInfo(cityName);
@@ -18,14 +28,16 @@ const getCityInfo = (cityName) => {
       return resp.json();
     })
     .then(function (data) {
-      setData(data["postalCodes"][0]);
+      setCityInfo(data["postalCodes"][0]);
     })
     .catch(function () {});
 };
 
-const setData = (data) => {
+const setCityInfo = (data) => {
   const selectDate = new Date(document.getElementById("travelDate").value);
+  selectDate.setHours(0, 0, 0, 0);
   const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0);
   const differenceInTime = selectDate - todayDate;
   const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
   const cityName = document.getElementById("city").value.trim();
@@ -36,7 +48,30 @@ const setData = (data) => {
     country: cityName,
     date: differenceInDays
   };
-  getWeathInfo(entry);
+
+  if (differenceInDays <= 7) {
+    getCurrentWearthInfo(entry);
+  } else {
+    getWeathInfo(entry);
+  }
+};
+
+const getCurrentWearthInfo = (entry) => {
+  fetch(
+    `https://api.weatherbit.io/v2.0/current?lat=${entry.latitude}&lon=${entry.longitude}&key=${constansts.WEATHERBIT_API_KEY}`
+  )
+    .then(function (resp) {
+      return resp.json();
+    })
+    .then(function (result) {
+      const data = result["data"];
+      const dataInfo = data[0];
+      entry["temp"] = dataInfo["temp"];
+      entry["description"] = dataInfo["weather"]["description"];
+
+      getImages(entry);
+    })
+    .catch(function () {});
 };
 
 const getWeathInfo = (entry) => {
@@ -48,11 +83,10 @@ const getWeathInfo = (entry) => {
     })
     .then(function (result) {
       const data = result["data"];
-      const dataInfo = data[entry.date - 1];
+      const dataInfo = data[data.length - 1];
       entry["max_temp"] = dataInfo["max_temp"];
       entry["min_temp"] = dataInfo["min_temp"];
       entry["description"] = dataInfo["weather"]["description"];
-      entry["country_code"] = dataInfo["weather"]["country_code"];
 
       getImages(entry);
     })
@@ -102,26 +136,32 @@ const retrieveData = async () => {
   const request = await fetch("http://localhost:8080/all");
   try {
     const data = await request.json();
-    const tripsDiv = document.getElementById("trips");
-    tripsDiv.innerHTML = "";
-    
-    data.forEach((element) => {
-      const card = drawCard(element);
-      tripsDiv.appendChild(card);
-    });
-    document.getElementById("trips").style.display = "inline-block";
+    localStorage.setItem("trips", JSON.stringify(data));
+    drawTrips(data);
+    resetFields();
   } catch (error) {
     console.log("error", error);
   }
 };
 
+export const drawTrips = (data) => {
+  const tripsDiv = document.getElementById("trips");
+  tripsDiv.innerHTML = "";
+
+  data.forEach((element) => {
+    const card = drawCard(element);
+    tripsDiv.appendChild(card);
+  });
+  document.getElementById("trips").style.display = "inline-block";
+};
+
 const drawCard = (data) => {
   const tripDiv = document.createElement("div");
   tripDiv.className = "a-box";
-  
+
   const imgContainer = drawCardImg(data.image);
   tripDiv.appendChild(imgContainer);
-  
+
   const cardInfo = drawCardInfo(data);
   tripDiv.appendChild(cardInfo);
 
@@ -131,13 +171,13 @@ const drawCard = (data) => {
 const drawCardImg = (image) => {
   const imgContainer = document.createElement("div");
   imgContainer.className = "img-container";
-  
+
   const imgInner = document.createElement("div");
   imgInner.className = "img-inner";
-  
+
   const innerSkew = document.createElement("div");
   innerSkew.className = "inner-skew";
-  
+
   const img = document.createElement("img");
   img.src = image;
 
@@ -150,15 +190,25 @@ const drawCardImg = (image) => {
 
 const drawCardInfo = (data) => {
   const infoDiv = document.createElement("text-container");
- 
+
   const title = document.createElement("h3");
   title.innerHTML = data.country;
-  
+
   const info = document.createElement("div");
-  info.innerHTML = `Your trip to ${data.country} after ${data.date} will have ${data.description} 
+  if (data.min_temp && data.max_temp) {
+    info.innerHTML = `Your trip to ${data.country} after ${data.date} will have ${data.description} 
     with max temp ${data.max_temp} and min temp ${data.min_temp}`;
-  
+  } else {
+    info.innerHTML = `Your trip to ${data.country} after ${data.date} will have ${data.description} 
+    with temp ${data.temp}`;
+  }
+
   infoDiv.appendChild(title);
   infoDiv.appendChild(info);
   return infoDiv;
+};
+
+const resetFields = () => {
+  document.getElementById("city").value = "";
+  document.getElementById("travelDate").value = "";
 };

@@ -1,6 +1,6 @@
 // Setup empty JS object to act as endpoint for all routes
 const port = 8080;
-projectData = [];
+const projectData = [];
 
 // Require Express to run server and routes
 const express = require("express");
@@ -22,21 +22,20 @@ app.use(cors());
 app.use(express.static("dist"));
 
 // Setup Server
-function listening() {
+export function listening() {
   console.log("server running");
   console.log(`running on localhost: ${port}`);
 }
-const server = app.listen(port, listening);
+app.listen(port, listening);
 
 //endpoints
-
 app.get("/", function (_, res) {
   res.sendFile("dist/index.html");
 });
 
 app.get("/all", getAll);
 
-function getAll(req, res) {
+function getAll(_, res) {
   res.send(projectData);
 }
 
