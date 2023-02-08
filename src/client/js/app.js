@@ -15,7 +15,8 @@ export const setDateLimitions = () => {
 
 export const addTrip = () => {
   const cityName = document.getElementById("city").value.trim();
-  if (cityName !== "") {
+  const date = document.getElementById("travelDate").value;
+  if (cityName !== "" && date !== "") {
     getCityInfo(cityName);
   }
 };

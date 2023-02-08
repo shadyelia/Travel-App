@@ -14,3 +14,5 @@ const trips = JSON.parse(localStorage.getItem("trips"));
 if (trips && trips.length > 0) {
   drawTrips(trips);
 }
+
+export { addTrip, drawTrips, setDateLimitions };
