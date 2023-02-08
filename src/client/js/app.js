@@ -21,7 +21,7 @@ export const addTrip = () => {
   }
 };
 
-const getCityInfo = (cityName) => {
+const getCityInfo = (cityName) => { //get lat and lng for a city
   fetch(
     `http://api.geonames.org/postalCodeSearchJSON?placename=${cityName}&maxRows=1&username=${constansts.USER_NAME}`
   )
@@ -57,7 +57,7 @@ const setCityInfo = (data) => {
   }
 };
 
-const getCurrentWearthInfo = (entry) => {
+const getCurrentWearthInfo = (entry) => { //get current weather
   fetch(
     `https://api.weatherbit.io/v2.0/current?lat=${entry.latitude}&lon=${entry.longitude}&key=${constansts.WEATHERBIT_API_KEY}`
   )
@@ -75,7 +75,7 @@ const getCurrentWearthInfo = (entry) => {
     .catch(function () {});
 };
 
-const getWeathInfo = (entry) => {
+const getWeathInfo = (entry) => {//get future weather
   fetch(
     `https://api.weatherbit.io/v2.0/forecast/daily?lat=${entry.latitude}&lon=${entry.longitude}&days=${entry.date}&key=${constansts.WEATHERBIT_API_KEY}`
   )
@@ -94,7 +94,7 @@ const getWeathInfo = (entry) => {
     .catch(function () {});
 };
 
-const getImages = (entry) => {
+const getImages = (entry) => { // get image for the city
   const countryName = entry.country.replace(/ /g, "+");
   fetch(
     `https://pixabay.com/api/?key=${constansts.PIXABAY_API_KEY}&q=${countryName}&image_type=photo&per_page=3`

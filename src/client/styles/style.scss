@@ -15,10 +15,9 @@ body {
 }
 
 #form {
-  margin-bottom: 30px;
-  width: 280px;
+  width: 175px;
   margin: 0 auto;
-  padding: 20px 50px 40px;
+  padding: 10px 25px 20px;
   box-shadow: 1px 4px 10px 1px #aaa;
   font-family: $font-family_1;
   * {
@@ -40,11 +39,11 @@ body {
     color: $color_1;
     font-size: 0.8em;
   }
-  button{
+  button {
     display: block;
     margin: 20px auto 0;
-    width: 150px;
-    height: 40px;
+    width: 125px;
+    height: 35px;
     border-radius: 25px;
     border: none;
     color: $color_2;
@@ -56,12 +55,12 @@ body {
 
 #trips {
   display: none;
-  margin: 30px;
+  margin: 15px;
 }
 
 .a-box {
   display: inline-block;
-  width: 240px;
+  width: 185px;
   text-align: center;
 }
 
@@ -106,4 +105,56 @@ body {
   margin: 20px 0px 10px 0px;
   color: #04bcff;
   font-size: 18px;
+}
+
+@media only screen and (min-width: 35em) {
+  #form {
+    width: 280px;
+    margin: 0 auto;
+    padding: 20px 50px 40px;
+    box-shadow: 1px 4px 10px 1px #aaa;
+    font-family: $font-family_1;
+    * {
+      box-sizing: border-box;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    input {
+      display: block;
+      height: 32px;
+      padding: 6px 16px;
+      width: 100%;
+      border: none;
+      margin-bottom: 10px;
+    }
+    label {
+      color: $color_1;
+      font-size: 0.8em;
+    }
+    button {
+      display: block;
+      margin: 20px auto 0;
+      width: 150px;
+      height: 40px;
+      border-radius: 25px;
+      border: none;
+      color: $color_2;
+      font-weight: 700;
+      box-shadow: 1px 4px 10px 1px #aaa;
+      background: #207cca;
+    }
+  }
+
+  .a-box {
+    display: inline-block;
+    width: 240px;
+    text-align: center;
+  }
+
+  #trips {
+    display: none;
+    margin: 30px;
+  }
 }
